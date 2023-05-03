@@ -1,0 +1,12 @@
+{
+    "name": "admin/projet_camille_php",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/",
+            "core\\": "core/"
+        }
+    },
+    "require": {
+        "twig/twig": "3.0"
+    }
+}
