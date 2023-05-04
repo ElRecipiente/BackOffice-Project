@@ -1,0 +1,55 @@
+@use "../../abstract" as *;
+
+.content {
+
+    width: 60%;
+    margin: 0 auto;
+
+    h2 {
+        font-size: $titlesize2;
+        text-align: center;
+        margin: 1em;
+    }
+
+    table {
+        margin: 1em auto;
+        padding: 2em;
+        border-spacing: 0;
+
+        tr {
+
+            th {
+                padding: 1em;
+            }
+
+            td {
+                text-align: center;
+                padding: 1em;
+                border-top: 1px solid $grey;
+
+
+
+                a {
+                    color: $white;
+                    padding: 0.5em;
+                    border-radius: 0.5em;
+
+                    &.green {
+                        background: rgba(0, 128, 0, 0.7);
+                    }
+
+                    &.blue {
+                        background: rgba(0, 0, 255, 0.7);
+                    }
+
+                    &.red {
+                        background: rgba(255, 0, 0, 0.7);
+                    }
+                }
+
+
+            }
+
+        }
+    }
+}

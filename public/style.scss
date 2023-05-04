@@ -1,0 +1,14 @@
+@use "../src/scss/composants";
+
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+    main {
+        display: flex;
+        justify-content: space-between;
+        width: 80%;
+        margin: 0 auto;
+        background: #e2e2e22c;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.5);
+    }
+}

@@ -1,0 +1,30 @@
+@use "../../abstract" as *;
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $bluedark;
+    color: $white;
+    height: 20vh;
+    padding: 2em;
+
+    h1 {
+        font-size: $titlesize1;
+    }
+
+    img {
+        width: 125px;
+        height: 100px;
+    }
+
+    a {
+        padding: 1em;
+        text-transform: uppercase;
+        background-color: $bluelight;
+
+        &:hover {
+            box-shadow: 0 0 4px black;
+        }
+    }
+}

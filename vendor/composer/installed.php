@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'admin/projet_camille_php',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '4f9f99a6d737668e24b09019e76e568ae1ddf5ab',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'admin/projet_camille_php' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '4f9f99a6d737668e24b09019e76e568ae1ddf5ab',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'twig/twig' => array(
-            'pretty_version' => 'v3.0.0',
-            'version' => '3.0.0.0',
-            'reference' => '9b58bb8ac7a41d72fbb5a7dc643e07923e5ccc26',
+            'pretty_version' => 'v3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '106c170d08e8415d78be2d16c3d057d0d108262b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../twig/twig',
             'aliases' => array(),

@@ -4,13 +4,27 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
 		<title>
 			{% block title %}Default
 			{% endblock %}
 		</title>
 	</head>
 	<body>
-		<main id="content"> {% block content %}{% endblock %}
+		<header class="header">
+			<img src="./assets/img/croissant.png" alt="logo croissant">
+			<h1>Online Snackies</h1>
+			<a href="">Connexion</a>
+		</header>
+		<main class="main">
+			<nav class="aside">
+				<img src="./assets/img/jeune-fille-perle-vermeer.jpg" alt="">
+				<h2>Welcome Admin !</h2>
+				<a href="">Produits</a>
+				<a href="">Utilisateurs</a>
+			</nav>
+			<article class="content"> {% block content %}{% endblock %}
+				</article>
 
 			</main>
 		</body>

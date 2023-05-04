@@ -1,0 +1,24 @@
+@use "../../abstract" as *;
+
+.aside {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 20%;
+    background-color: $bluedark;
+    color: $white;
+    text-align: center;
+    height: 80vh;
+
+    img {
+        width: 100%;
+    }
+
+    h2 {
+        padding: 2em;
+    }
+
+    a {
+        padding: 1em;
+    }
+}

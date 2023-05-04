@@ -3,6 +3,7 @@
 namespace core;
 
 use src\controllers\ProductController;
+use src\controllers\UserController;
 
 class App
 {
@@ -18,7 +19,7 @@ class App
             $controller = new ProductController();
             $controller->connect();
         } else if ($_SERVER['REQUEST_URI'] == '/users') {
-            $controller = new ProductController();
+            $controller = new UserController();
             $controller->users();
         } else {
             http_response_code(404); //ON ENVOIT LA BONNE ERREUR AU NAVIGATEUR
