@@ -122,6 +122,7 @@ iframe {
 }
 
 .header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,9 +130,16 @@ iframe {
   color: white;
   height: 20vh;
   padding: 2em;
+  text-transform: uppercase;
 }
 .header h1 {
-  font-size: 36px;
+  font-family: "Courier New", Courier, monospace;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 42px;
+  text-align: center;
 }
 .header img {
   width: 125px;
@@ -139,16 +147,20 @@ iframe {
 }
 .header a {
   padding: 1em;
-  text-transform: uppercase;
   background-color: #43D2FF;
+  transition: background-color 0.4s;
 }
 .header a:hover {
-  box-shadow: 0 0 4px black;
+  background: #68dcff;
 }
 
 .content {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
   width: 60%;
-  margin: 0 auto;
+  height: 80vh;
+  flex-grow: 1;
 }
 .content h2 {
   font-size: 24px;
@@ -182,6 +194,32 @@ iframe {
 .content table tr td a.red {
   background: rgba(255, 0, 0, 0.7);
 }
+.content form {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 40%;
+  background: #006472;
+  color: white;
+  padding: 2em;
+  margin: 2em;
+}
+.content form .radio {
+  display: flex;
+  align-items: center;
+}
+.content form input {
+  background: white;
+  color: black;
+  margin: 1em;
+  padding: 1em;
+}
+.content form button {
+  background: #43D2FF;
+  padding: 1em;
+  margin-top: 2em;
+}
 
 .aside {
   display: flex;
@@ -193,14 +231,20 @@ iframe {
   text-align: center;
   height: 80vh;
 }
-.aside img {
+.aside img,
+.aside h2,
+.aside a {
   width: 100%;
 }
-.aside h2 {
-  padding: 2em;
-}
+.aside h2,
 .aside a {
-  padding: 1em;
+  padding: 2em 0;
+}
+.aside h2 {
+  background: #43D2FF;
+}
+.aside a:hover {
+  background: #43D2FF;
 }
 
 body {

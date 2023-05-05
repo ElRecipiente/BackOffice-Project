@@ -13,16 +13,21 @@
 	<body>
 		<header class="header">
 			<img src="./assets/img/croissant.png" alt="logo croissant">
-			<h1>Online Snackies</h1>
-			<a href="">Connexion</a>
+			<h1>Online Free Pâtisserie</h1>
+			<a href="/auth">
+				{% block auth %}Connexion
+				{% endblock %}
+			</a>
 		</header>
 		<main class="main">
-			<nav class="aside">
-				<img src="./assets/img/jeune-fille-perle-vermeer.jpg" alt="">
-				<h2>Welcome Admin !</h2>
-				<a href="">Produits</a>
-				<a href="">Utilisateurs</a>
-			</nav>
+			{% block nav %}
+				<nav class="aside">
+					<img src="./assets/img/jeune-fille-perle-vermeer.jpg" alt="">
+					<h2>Welcome Admin !</h2>
+					<a href="./">Produits</a>
+					<a href="./users">Utilisateurs</a>
+				</nav>
+			{% endblock %}
 			<article class="content"> {% block content %}{% endblock %}
 				</article>
 

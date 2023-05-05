@@ -10,15 +10,25 @@
     text-align: center;
     height: 80vh;
 
-    img {
+    img,
+    h2,
+    a {
         width: 100%;
     }
 
+    h2,
+    a {
+        padding: 2em 0;
+    }
+
     h2 {
-        padding: 2em;
+        background: $bluelight;
     }
 
     a {
-        padding: 1em;
+        &:hover {
+            background: $bluelight;
+        }
     }
+
 }

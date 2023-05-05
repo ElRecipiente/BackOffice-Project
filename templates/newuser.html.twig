@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Nouveau Profil
+{% endblock %}
+
+{% block auth %}Déconnexion
+{% endblock %}
+
+{% block content %}
+
+
+	<h2>Créer un nouveau profil</h2>
+
+	<form class="auth" action="./auth" method="POST">
+
+		<label for="username">Nom Utilisateur</label>
+		<input type="text" name="username" id="username">
+
+		<label for="password">Mot de passe</label>
+		<input type="text" name="password" id="password">
+
+		<label for="passwordverif">Vérification mot de passe</label>
+		<input type="text" name="passwordverif" id="passwordverif">
+
+		<label for="budget">Budget</label>
+		<input type="text" name="budget" id="budget">
+
+		<div class="radio">
+			<label for="isAdmin">Droits Admin ?</label>
+			<input type="radio" name="isAdmin" id="isAdmin" value="1">Oui
+			<input type="radio" name="isAdmin" id="isAdmin" value="0" checked>Non
+		</div>
+
+		<button>Envoyer</button>
+	</form>
+{% endblock %}

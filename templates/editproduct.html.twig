@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Produit
+{% endblock %}
+
+{% block auth %}Déconnexion
+{% endblock %}
+
+{% block content %}
+
+
+	<h2>Editer
+		{{produit.name}}</h2>
+
+	<form class="updateprod" action="./product?productid={{produit.id}}" method="POST">
+
+		<label for="name">Nom du produit</label>
+		<input type="text" name="name" id="name" value="{{produit.name}}">
+
+		<label for="quantity">Quantité</label>
+		<input type="text" name="quantity" id="quantity" value="{{produit.quantity}}">
+
+		<label for="price">Prix</label>
+		<input type="text" name="price" id="price" value="{{produit.price}}">
+
+		<button>Envoyer</button>
+
+	</form>
+{% endblock %}

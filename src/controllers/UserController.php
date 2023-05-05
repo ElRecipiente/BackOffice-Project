@@ -21,4 +21,16 @@ class UserController extends BaseController
 
         $this->render('users.html.twig', ['users' => $users]);
     }
+
+    public function edituser()
+    {
+        $id = $_GET['userid'];
+        $user = $this->model->getOne($id);
+        $this->render('edituser.html.twig', ['user' => $user]);
+    }
+
+    public function newuser()
+    {
+        $this->render('newuser.html.twig');
+    }
 }

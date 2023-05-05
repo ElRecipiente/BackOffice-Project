@@ -29,12 +29,13 @@ abstract class BaseModel
         }
     }
 
-    public function getOne()
+    public function getOne($id)
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE id=" . $this->id;
+        $sql = "SELECT * FROM " . $this->table . " WHERE id = :id";
         $query = $this->_connexion->prepare($sql);
+        $query->bindParam(':id', $id);
         $query->execute();
-        return $query->fetch();
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 
     public function getAll()

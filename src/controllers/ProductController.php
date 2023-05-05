@@ -28,23 +28,28 @@ class ProductController extends BaseController
         // Et on charge la vue, qui aura accès au tableau "$produits"
         // - - - Utilisez soit require() soit Twig
 
-        $this->render('index.html.twig', ['produits' => $produits]);
+        $this->render('products.html.twig', ['produits' => $produits]);
     }
 
-    public function connect()
+    public function editProduct()
     {
-        $this->render('connect.html.twig');
+        $id = $_GET['productid'];
+        $produit = $this->model->getOne($id);
+        $this->render('editproduct.html.twig', ['produit' => $produit]);
     }
 
-    public function users()
+    public function updateThisProduct()
     {
-        $users = $this->model->getAll();
-
-        $this->render('users.html.twig', ['users' => $users]);
-    }
-
-    public function error()
-    {
-        $this->render('error.html.twig');
+        if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
+            $id = $_GET['productid'];
+            $this->model->updateProduct($id);
+            $produits = $this->model->getAll();
+            $this->render('products.html.twig', ['produits' => $produits]);
+        } else {
+            echo 'Nope';
+            $id = $_GET['productid'];
+            $produit = $this->model->getOne($id);
+            $this->render('editproduct.html.twig', ['produit' => $produit]);
+        }
     }
 }

@@ -1,9 +1,12 @@
 @use "../../abstract" as *;
 
 .content {
-
+    display: flex;
+    flex-flow: column;
+    align-items: center;
     width: 60%;
-    margin: 0 auto;
+    height: 80vh;
+    flex-grow: 1;
 
     h2 {
         font-size: $titlesize2;
@@ -50,6 +53,36 @@
 
             }
 
+        }
+    }
+
+    form {
+        display: flex;
+        flex-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 40%;
+        background: $bluedark;
+        color: $white;
+        padding: 2em;
+        margin: 2em;
+
+        .radio {
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            background: $white;
+            color: black;
+            margin: 1em;
+            padding: 1em;
+        }
+
+        button {
+            background: $bluelight;
+            padding: 1em;
+            margin-top: 2em;
         }
     }
 }
