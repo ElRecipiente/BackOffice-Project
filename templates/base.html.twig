@@ -14,10 +14,12 @@
 		<header class="header">
 			<img src="./assets/img/croissant.png" alt="logo croissant">
 			<h1>Online Free Pâtisserie</h1>
-			<a href="/auth">
-				{% block auth %}Connexion
-				{% endblock %}
-			</a>
+
+			{% block auth %}
+				<a href="/logout">Déconnexion
+				</a>
+			{% endblock %}
+
 		</header>
 		<main class="main">
 			{% block nav %}

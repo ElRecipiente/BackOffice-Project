@@ -3,13 +3,9 @@
 {% block title %}Produit
 {% endblock %}
 
-{% block auth %}Déconnexion
-{% endblock %}
-
 {% block content %}
 
-
-	<h2>Editer
+	<h2>Editer :
 		{{produit.name}}</h2>
 
 	<form class="updateprod" action="./product?productid={{produit.id}}" method="POST">
@@ -23,7 +19,7 @@
 		<label for="price">Prix</label>
 		<input type="text" name="price" id="price" value="{{produit.price}}">
 
-		<button>Envoyer</button>
+		<button>Modifier</button>
 
 	</form>
 {% endblock %}

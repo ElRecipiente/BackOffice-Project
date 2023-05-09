@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Nouveau Profil
+{% endblock %}
+
+
+{% block content %}
+
+	<h2>Créer un nouveau produit</h2>
+
+	<form class="newprod" action="./addproduct" method="POST">
+
+		<label for="name">Nom du produit</label>
+		<input type="text" name="name" id="name">
+
+		<label for="quantity">Quantité</label>
+		<input type="text" name="quantity" id="quantity">
+
+		<label for="price">Prix</label>
+		<input type="text" name="price" id="price">
+
+		<button>Créer</button>
+	</form>
+{% endblock %}

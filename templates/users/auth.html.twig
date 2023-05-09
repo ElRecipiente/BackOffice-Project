@@ -3,6 +3,7 @@
 {% block title %}Authentification
 {% endblock %}
 
+{% block auth %}{% endblock %}
 {% block nav %}{% endblock %}
 
 {% block content %}
@@ -10,13 +11,15 @@
 
 	<h2>Authentification</h2>
 
-	<form class="auth" action="./auth" method="POST">
+	<form class="auth" action="./tryauth" method="POST">
 
 		<label for="username">Nom Utilisateur</label>
 		<input type="text" name="username" id="username" placeholder="Votre identifiant ici">
 
 		<label for="password">Mot de Passe</label>
-		<input type="text" name="password" id="password" placeholder="Votre mot de passe là">
+		<input type="password" name="password" id="password" placeholder="Votre mot de passe là">
+
+		<button>Se connecter</button>
 
 	</form>
 

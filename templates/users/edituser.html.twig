@@ -3,16 +3,13 @@
 {% block title %}Editer Utilisateur
 {% endblock %}
 
-{% block auth %}Déconnexion
-{% endblock %}
-
 {% block content %}
 
 
-	<h2>Editer
+	<h2>Editer profil :
 		{{user.username}}</h2>
 
-	<form class="auth" action="./auth" method="POST">
+	<form class="updateuser" action="./user?userid={{user.id}}" method="POST">
 
 		<label for="username">Nom Utilisateur</label>
 		<input type="text" name="username" id="username" value="{{user.username}}" readonly>
@@ -20,6 +17,6 @@
 		<label for="budget">Budget</label>
 		<input type="text" name="budget" id="budget" value="{{user.budget}}">
 
-		<button>Envoyer</button>
+		<button>Modifier</button>
 	</form>
 {% endblock %}

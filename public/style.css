@@ -250,6 +250,11 @@ iframe {
 body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
+body .error {
+  background: black;
+  color: red;
+  text-align: center;
+}
 body main {
   display: flex;
   justify-content: space-between;
