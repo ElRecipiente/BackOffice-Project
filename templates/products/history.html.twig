@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Historique
+{% endblock %}
+
+{% block content %}
+
+	<h2>Historique</h2>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Administrateur</th>
+				<th>Produit modifié</th>
+				<th>Quantité modifiée</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+
+
+			{% for each in history %}
+				<tr>
+					<td>{{ each.username }}</td>
+					<td>{{ each.name }}</td>
+					<td>
+						{% if each.quantity_change < 0 %}
+							<span style='color: red;'>{{ each.quantity_change }}</span>
+						{% else %}
+							<span style='color: green;'>{{ each.quantity_change }}</span>
+						{% endif %}
+					</td>
+
+
+					<td>{{ each.date }}</td>
+				</tr>
+
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+{% endblock %}

@@ -25,9 +25,14 @@
 			{% block nav %}
 				<nav class="aside">
 					<img src="./assets/img/jeune-fille-perle-vermeer.jpg" alt="">
-					<h2>Welcome Admin !</h2>
+					<h2>Welcome
+						{% block username %}
+							{{username}}
+						{% endblock %}
+					</h2>
 					<a href="./">Produits</a>
 					<a href="./users">Utilisateurs</a>
+					<a href="./history">Historique</a>
 				</nav>
 			{% endblock %}
 			<article class="content"> {% block content %}{% endblock %}

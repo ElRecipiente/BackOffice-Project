@@ -167,6 +167,26 @@ iframe {
   text-align: center;
   margin: 1em;
 }
+.content a {
+  color: white;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+.content a.green {
+  background: rgba(0, 128, 0, 0.7);
+}
+.content a.blue {
+  background: rgba(0, 0, 255, 0.7);
+}
+.content a.red {
+  background: rgba(255, 0, 0, 0.7);
+}
+.content .done {
+  text-align: center;
+  padding: 1em;
+  color: white;
+  background: #00a9c0;
+}
 .content table {
   margin: 1em auto;
   padding: 2em;
@@ -179,20 +199,6 @@ iframe {
   text-align: center;
   padding: 1em;
   border-top: 1px solid #c7c7c7;
-}
-.content table tr td a {
-  color: white;
-  padding: 0.5em;
-  border-radius: 0.5em;
-}
-.content table tr td a.green {
-  background: rgba(0, 128, 0, 0.7);
-}
-.content table tr td a.blue {
-  background: rgba(0, 0, 255, 0.7);
-}
-.content table tr td a.red {
-  background: rgba(255, 0, 0, 0.7);
 }
 .content form {
   display: flex;

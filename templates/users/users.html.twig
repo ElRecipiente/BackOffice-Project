@@ -23,17 +23,23 @@
 				<tr>
 					<td>{{ user.username }}</td>
 					<td>{{ user.budget }}</td>
-					<td>{{ user.isAdmin }}</td>
 					<td>
-						<a class="green" href="./newuser">Nouveau</a>
-						<a class="blue" href="./edituser?userid={{user.id}}">Editer</a>
-						<a class="red" href="./deluser?userid={{user.id}}">Supprimer</a>
+						{% if user.isAdmin %}
+							<span style='color: green;'>Oui</span>
+						{% else %}
+							<span style='color: red;'>Non</span>
+						{% endif %}
+					</td>
+					<td>
+
+						<a class="blue" href="./edituser?userid={{user.id}}">Editer budget</a>
 					</td>
 				</tr>
+
 			{% endfor %}
 
 		</tbody>
 	</table>
-
+	<a class="green" href="./newuser">Créer un nouvel Utilisateur</a>
 
 {% endblock %}

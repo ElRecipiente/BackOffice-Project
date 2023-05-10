@@ -43,7 +43,7 @@ class User extends BaseModel
     {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $sql = "SELECT username, password, isAdmin FROM users WHERE username = :username AND 'password' = :password AND isAdmin = 1";
+        $sql = "SELECT * FROM users WHERE username = :username AND 'password' = :password AND isAdmin = 1";
         $query = $this->_connexion->prepare($sql);
         $query->bindParam(':username', $username);
         $query->bindParam(':password', $password);

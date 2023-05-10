@@ -4,15 +4,22 @@ namespace core;
 
 use src\controllers\ProductController;
 use src\controllers\UserController;
+use src\controllers\HistoryController;
 use src\controllers\ErrorController;
 
 
 class App
 {
+
+    public function __construct()
+    {
+        session_start();
+    }
+
     //UNE SEULE METHOD ICI, LA METHOD RUN
     public function run()
     {
-        session_start();
+
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
         //ATTENTION, CECI EST UN TEST ET N'EST PAS UNE BONNE PRATIQUE ! CE NE DOIT PAS ETRE LE ROLE DE CETTE CLASSE (MAIS CELUI D'UNE CLASS ROUTER) DE GERER LA VERIFICATION DES ROUTES
         //EN TERME DE CONVENTION, CHAQUE CONTROLLER EST UNE CLASSE
@@ -41,6 +48,9 @@ class App
             } else if ($uri == '/addproduct') {
                 $controller = new ProductController();
                 $controller->addProduct();
+            } else if ($uri == '/deleteproduct') {
+                $controller = new ProductController();
+                $controller->deleteProduct();
 
                 //USERS ROUTES
             } else if ($uri == '/users') {
@@ -58,6 +68,11 @@ class App
             } else if ($uri == '/edituser' && isset($_GET['userid'])) {
                 $controller = new UserController();
                 $controller->editUser();
+
+                //HISTORY
+            } else if ($uri == '/history') {
+                $controller = new HistoryController();
+                $controller->history();
 
                 //GESTION ERROR
             } else {

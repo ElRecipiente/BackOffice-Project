@@ -39,4 +39,11 @@ class Product extends BaseModel
         $query->bindParam(':price', $price);
         $query->execute();
     }
+
+    public function deleteThisProduct($id)
+    {
+        $sql = "DELETE FROM " . $this->table . " WHERE id = " . $id;
+        $query = $this->_connexion->prepare($sql);
+        $query->execute();
+    }
 }
