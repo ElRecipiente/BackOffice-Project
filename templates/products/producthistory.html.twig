@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Historique
+{% block title %}Historique Produit
 {% endblock %}
 
 {% block content %}
 
-	<h2>Historique</h2>
+	<h2>Historique Produit</h2>
 
 	<table>
 		<thead>
@@ -13,11 +13,11 @@
 				<th>Administrateur</th>
 				<th>Produit modifié</th>
 				<th>Quantité modifiée</th>
+				<th>Prix modifié</th>
 				<th>Date</th>
 			</tr>
 		</thead>
 		<tbody>
-
 
 			{% for each in history %}
 				<tr>
@@ -26,12 +26,22 @@
 					<td>
 						{% if each.quantity_change < 0 %}
 							<span style='color: red;'>{{ each.quantity_change }}</span>
+						{% elseif each.quantity_change > 0 %}
+							<span style='color: green;'>+{{ each.quantity_change }}</span>
 						{% else %}
-							<span style='color: green;'>{{ each.quantity_change }}</span>
+							<span>{{ each.quantity_change }}</span>
 						{% endif %}
 					</td>
 
-
+					<td>
+						{% if each.price_change < 0 %}
+							<span style='color: red;'>{{ each.price_change }}</span>
+						{% elseif each.price_change > 0 %}
+							<span style='color: green;'>+{{ each.price_change }}</span>
+						{% else %}
+							<span>{{ each.price_change }}</span>
+						{% endif %}
+					</td>
 					<td>{{ each.date }}</td>
 				</tr>
 

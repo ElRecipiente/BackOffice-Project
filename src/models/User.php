@@ -39,15 +39,15 @@ class User extends BaseModel
         $query->execute();
     }
 
-    public function connexion()
+    public function connect()
     {
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $sql = "SELECT * FROM users WHERE username = :username AND 'password' = :password AND isAdmin = 1";
+        $sql = "SELECT id, username FROM users WHERE username = :username AND 'password' = :password AND isAdmin = 1";
         $query = $this->_connexion->prepare($sql);
         $query->bindParam(':username', $username);
         $query->bindParam(':password', $password);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_OBJ);
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 }

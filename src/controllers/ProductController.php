@@ -3,8 +3,8 @@
 namespace src\controllers;
 
 use core\BaseController;
-use src\models\History;
 use src\models\Product;
+use src\models\ProductHistory;
 
 class ProductController extends BaseController
 {
@@ -43,30 +43,43 @@ class ProductController extends BaseController
     {
         if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
 
+            //Limite la quantité des produits
             if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99) {
                 echo "<p class='error'>Champ quantité invalide, le nombre doit être compris entre 0 et 99.</p>";
                 $id = $_GET['productid'];
                 $produit = $this->model->getOne($id);
 
                 $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+
+                //limite le prix des produits
             } else if ($_POST['price'] < 0.20 || $_POST['price'] >= 20) {
                 echo "<p class='error'>Champ prix invalide, le nombre doit être compris entre 0.20 et 20.</p>";
                 $id = $_GET['productid'];
                 $produit = $this->model->getOne($id);
 
                 $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+
+                //mise à jour de produit dans la DB
             } else {
                 $productid = $_GET['productid'];
 
                 $produit = $this->model->getOne($productid);
-                $quantity = $produit->quantity - $_POST['quantity'];
-                $userid = $_SESSION['Admin']; //FAIRE UN SELECT QUI RENVOIE USERID DANS LE MODEL
-                $history = new History();
-                $history->insertHistory($userid, $productid, $quantity);
+
+                //création d'un historique des modifications
+                if ($produit->quantity != $_POST['quantity'] || $produit->price != $_POST['price']) {
+                    $quantity = $_POST['quantity'] - $produit->quantity;
+                    $price = $_POST['price'] - $produit->price;
+                    $userid =  $_SESSION['id'];
+                    $history = new ProductHistory();
+                    $history->insertHistory($userid, $productid, $quantity, $price);
+                }
+
                 $this->model->updateProduct($productid);
 
-                header('Location: /');
-                exit;
+                $popup = "La base de données a été mise à jour.";
+
+                $produits = $this->model->getAll();
+                $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
             }
         } else {
             echo "<p class='error'>Tous les champs sont obligatoires.</p>";
@@ -89,14 +102,17 @@ class ProductController extends BaseController
                 echo "<p class='error'>Champ quantité invalide, le nombre doit être compris entre 0 et 99.</p>";
 
                 $this->render('products/newproduct.html.twig');
-            } else if ($_POST['price'] < 0 || $_POST['price'] > 99) {
+            } else if ($_POST['price'] < 0.20 || $_POST['price'] > 20) {
                 echo "<p class='error'>Champ prix invalide, le nombre doit être compris entre 0 et 99.</p>";
 
                 $this->render('products/newproduct.html.twig');
             } else {
                 $this->model->addNewProduct();
-                header('Location: /');
-                exit;
+
+                $popup = "Le produit a été ajouté à la base de donnée avec succès.";
+
+                $produits = $this->model->getAll();
+                $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
             }
         } else {
             echo "<p class='error'>Tous les champs sont obligatoires.</p>";
@@ -111,9 +127,9 @@ class ProductController extends BaseController
 
         $produit = $this->model->getOne($id);
         $this->model->deleteThisProduct($id);
-        $delete = "L'entrée " . $produit->name . " a été supprimée de la base de donnée avec succès.";
+        $popup = "L'entrée " . $produit->name . " a été supprimée de la base de donnée avec succès.";
 
         $produits = $this->model->getAll();
-        $this->render('products/products.html.twig', ['produits' => $produits, 'delete' => $delete, 'username' => $_SESSION['Admin']]);
+        $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
     }
 }

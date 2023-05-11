@@ -4,7 +4,8 @@ namespace core;
 
 use src\controllers\ProductController;
 use src\controllers\UserController;
-use src\controllers\HistoryController;
+use src\controllers\ProductHistoryController;
+use src\controllers\UserHistoryController;
 use src\controllers\ErrorController;
 
 
@@ -70,9 +71,12 @@ class App
                 $controller->editUser();
 
                 //HISTORY
-            } else if ($uri == '/history') {
-                $controller = new HistoryController();
-                $controller->history();
+            } else if ($uri == '/producthistory') {
+                $controller = new ProductHistoryController();
+                $controller->productHistory();
+            } else if ($uri == '/adminhistory') {
+                $controller = new UserHistoryController();
+                $controller->userHistory();
 
                 //GESTION ERROR
             } else {

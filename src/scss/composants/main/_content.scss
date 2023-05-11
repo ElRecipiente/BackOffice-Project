@@ -7,6 +7,11 @@
     width: 60%;
     height: 80vh;
     flex-grow: 1;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     h2 {
         font-size: $titlesize2;

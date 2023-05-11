@@ -1,0 +1,43 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Historique Administrateur
+{% endblock %}
+
+{% block content %}
+
+	<h2>Historique Administrateur</h2>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Administrateur</th>
+				<th>Profil modifié</th>
+				<th>Budget modifié</th>
+				<th>Date</th>
+			</tr>
+		</thead>
+		<tbody>
+
+
+			{% for each in history %}
+				<tr>
+					<td>{{ each.admin }}</td>
+					<td>{{ each.username }}</td>
+					<td>
+						{% if each.budget_change < 0 %}
+							<span style='color: red;'>{{ each.budget_change }}</span>
+						{% elseif each.budget_change > 0 %}
+							<span style='color: green;'>+{{ each.budget_change }}</span>
+						{% else %}
+							<span>{{ each.budget_change }}</span>
+						{% endif %}
+					</td>
+					<td>{{ each.date }}</td>
+				</tr>
+
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+{% endblock %}

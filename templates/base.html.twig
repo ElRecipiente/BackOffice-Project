@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="style.css">
+
 		<title>
 			{% block title %}Default
 			{% endblock %}
@@ -22,9 +23,12 @@
 
 		</header>
 		<main class="main">
+
 			{% block nav %}
 				<nav class="aside">
-					<img src="./assets/img/jeune-fille-perle-vermeer.jpg" alt="">
+					<img
+					src="./assets/img/portrait-300x300.jpg" alt="">
+					{# <img src="https://api.dicebear.com/6.x/avataaars/svg?seed={{username}}" alt="avatar"/> #}
 					<h2>Welcome
 						{% block username %}
 							{{username}}
@@ -32,9 +36,11 @@
 					</h2>
 					<a href="./">Produits</a>
 					<a href="./users">Utilisateurs</a>
-					<a href="./history">Historique</a>
+					<a href="./producthistory">Historique Produit</a>
+					<a href="./adminhistory">Historique Administrateur</a>
 				</nav>
 			{% endblock %}
+
 			<article class="content"> {% block content %}{% endblock %}
 				</article>
 

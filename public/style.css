@@ -161,6 +161,10 @@ iframe {
   width: 60%;
   height: 80vh;
   flex-grow: 1;
+  overflow-y: auto;
+}
+.content::-webkit-scrollbar {
+  display: none;
 }
 .content h2 {
   font-size: 24px;
@@ -231,16 +235,20 @@ iframe {
   display: flex;
   flex-flow: column;
   align-items: center;
-  width: 20%;
+  width: 300px;
   background-color: #006472;
   color: white;
   text-align: center;
-  height: 80vh;
+  min-height: 80vh;
 }
 .aside img,
 .aside h2,
 .aside a {
   width: 100%;
+}
+.aside img {
+  height: 300px;
+  width: 300px;
 }
 .aside h2,
 .aside a {
@@ -248,6 +256,9 @@ iframe {
 }
 .aside h2 {
   background: #43D2FF;
+}
+.aside a {
+  transition: all 0.2s ease-out;
 }
 .aside a:hover {
   background: #43D2FF;
