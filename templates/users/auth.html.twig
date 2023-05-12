@@ -11,6 +11,10 @@
 
 	<h2>Authentification</h2>
 
+	{% if popup %}
+		<span class='done'>{{popup}}</span>
+	{% endif %}
+
 	<form class="auth" action="./tryauth" method="POST">
 
 		<label for="username">Nom Utilisateur</label>

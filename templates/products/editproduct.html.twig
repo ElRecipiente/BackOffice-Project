@@ -8,6 +8,10 @@
 	<h2>Editer :
 		{{produit.name}}</h2>
 
+	{% if popup %}
+		<span class='done'>{{popup}}</span>
+	{% endif %}
+
 	<form class="updateprod" action="./product?productid={{produit.id}}" method="POST">
 
 		<label for="name">Nom du produit</label>

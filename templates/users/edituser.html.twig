@@ -9,6 +9,10 @@
 	<h2>Editer profil :
 		{{user.username}}</h2>
 
+	{% if popup %}
+		<span class='done'>{{popup}}</span>
+	{% endif %}
+
 	<form class="updateuser" action="./user?userid={{user.id}}" method="POST">
 
 		<label for="username">Nom Utilisateur</label>

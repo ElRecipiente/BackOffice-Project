@@ -54,10 +54,10 @@ class UserController extends BaseController
             $users = $this->model->getAll();
             $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
         } else {
-            echo "<p class='error'>Tous les champs sont obligatoires.</p>";
+            $popup = "Tous les champs sont obligatoires.";
             $id = $_GET['userid'];
             $user = $this->model->getOne($id);
-            $this->render('users/edituser.html.twig', ['user' => $user, 'username' => $_SESSION['Admin']]);
+            $this->render('users/edituser.html.twig', ['user' => $user, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
         }
     }
 
@@ -69,18 +69,24 @@ class UserController extends BaseController
     public function addUser()
     {
         if ($_POST["password"] != $_POST["passwordverif"]) {
-            echo "<p class='error'>Les mots de passes ne sont pas identiques.</p>";
-            $this->render('users/newuser.html.twig', ['username' => $_SESSION['Admin']]);
+            $popup = "Les mots de passes ne sont pas identiques.";
+            $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
         } else if (!empty(trim($_POST['username'])) && !empty(trim($_POST['budget'])) && !empty(trim($_POST['password'])) && isset($_POST['isAdmin'])) {
-            $this->model->addNewUser();
-            $popup = "L'entrée a été ajoutée à la base de donnée avec succès.";
+            if (preg_match('/^[\wÀ-ÖØ-öø-ÿ]+$/u', $_POST['username'])) {
+                $this->model->addNewUser();
+                $popup = "L'entrée a été ajoutée à la base de donnée avec succès.";
 
-            $users = $this->model->getAll();
-            $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                $users = $this->model->getAll();
+                $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            } else {
+                $popup = "Le nom utilisateur comporte des caractères non acceptés. Caractères alphanumériques uniquement.";
+
+                $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            }
         } else {
-            echo "<p class='error'>Tous les champs sont obligatoires.</p>";
+            $popup = "Tous les champs sont obligatoires.";
 
-            $this->render('users/newuser.html.twig', ['username' => $_SESSION['Admin']]);
+            $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
         }
     }
 
@@ -100,12 +106,12 @@ class UserController extends BaseController
                 header('Location: /');
                 exit;
             } else {
-                echo "<p class='error'>Identifiants incorrects.</p>";
-                $this->render('users/auth.html.twig', ['username' => $_SESSION['Admin']]);
+                $popup = "Identifiants incorrects.";
+                $this->render('users/auth.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
             }
         } else {
-            echo "<p class='error'>Tous les champs sont obligatoires.</p>";
-            $this->render('users/auth.html.twig', ['username' => $_SESSION['Admin']]);
+            $popup = "Tous les champs sont obligatoires.";
+            $this->render('users/auth.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
         }
     }
 

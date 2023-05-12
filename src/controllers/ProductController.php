@@ -44,23 +44,31 @@ class ProductController extends BaseController
         if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
 
             //Limite la quantité des produits
-            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99) {
-                echo "<p class='error'>Champ quantité invalide, le nombre doit être compris entre 0 et 99.</p>";
+            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99 || !preg_match('/^[0-9]+$/', $_POST['quantity'])) {
+                $popup = "Champ quantité invalide, le nombre doit être compris entre 0 et 99.";
                 $id = $_GET['productid'];
                 $produit = $this->model->getOne($id);
 
-                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
 
                 //limite le prix des produits
             } else if ($_POST['price'] < 0.20 || $_POST['price'] >= 20) {
-                echo "<p class='error'>Champ prix invalide, le nombre doit être compris entre 0.20 et 20.</p>";
+                $popup = "Champ prix invalide, le nombre doit être compris entre 0.20 et 20.";
                 $id = $_GET['productid'];
                 $produit = $this->model->getOne($id);
 
-                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                //regex
+            } else if (!preg_match('/^[\wÀ-ÖØ-öø-ÿ ]+$/u', $_POST['name'])) {
+                $popup = "Le champ nom contient des caratères invalides, caractères alphanumériques uniquement.";
+                $id = $_GET['productid'];
+                $produit = $this->model->getOne($id);
+
+                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
 
                 //mise à jour de produit dans la DB
             } else {
+
                 $productid = $_GET['productid'];
 
                 $produit = $this->model->getOne($productid);
@@ -82,11 +90,11 @@ class ProductController extends BaseController
                 $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
             }
         } else {
-            echo "<p class='error'>Tous les champs sont obligatoires.</p>";
+            $popup = "Tous les champs sont obligatoires.";
             $id = $_GET['productid'];
             $produit = $this->model->getOne($id);
 
-            $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+            $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
         }
     }
 
@@ -98,14 +106,18 @@ class ProductController extends BaseController
     public function addProduct()
     {
         if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
-            if ($_POST['quantity'] < 0 || $_POST['quantity'] > 99) {
-                echo "<p class='error'>Champ quantité invalide, le nombre doit être compris entre 0 et 99.</p>";
+            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99 || !preg_match('/^[0-9]+$/', $_POST['price'])) {
+                $popup = "Champ quantité invalide, le nombre doit être compris entre 0 et 99.";
 
-                $this->render('products/newproduct.html.twig');
-            } else if ($_POST['price'] < 0.20 || $_POST['price'] > 20) {
-                echo "<p class='error'>Champ prix invalide, le nombre doit être compris entre 0 et 99.</p>";
+                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
+            } else if ($_POST['price'] <= 0.20 || $_POST['price'] >= 20) {
+                $popup = "Champ prix invalide, le nombre doit être compris entre 0 et 99.";
 
-                $this->render('products/newproduct.html.twig');
+                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
+            } else if (!preg_match('/^[\wÀ-ÖØ-öø-ÿ ]+$/u', $_POST['name'])) {
+                $popup = "Le champ nom contient des caratères invalides, caractères alphanumériques uniquement.";
+
+                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
             } else {
                 $this->model->addNewProduct();
 
@@ -115,9 +127,9 @@ class ProductController extends BaseController
                 $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
             }
         } else {
-            echo "<p class='error'>Tous les champs sont obligatoires.</p>";
+            $popup = "Tous les champs sont obligatoires.";
 
-            $this->render('products/newproduct.html.twig', ['username' => $_SESSION['Admin']]);
+            $this->render('products/newproduct.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
         }
     }
 
