@@ -46,4 +46,11 @@ class Product extends BaseModel
         $query = $this->_connexion->prepare($sql);
         $query->execute();
     }
+
+    public function consumeThisProduct($id)
+    {
+        $sql = "UPDATE " . $this->table . " SET quantity = quantity-1 WHERE id = " . $id . " AND quantity > 0";
+        $query = $this->_connexion->prepare($sql);
+        $query->execute();
+    }
 }

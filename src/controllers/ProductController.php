@@ -28,15 +28,26 @@ class ProductController extends BaseController
     {
         $produits = $this->model->getAll();
 
-        $this->render('products/products.html.twig', ['produits' => $produits, 'username' => $_SESSION['Admin']]);
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('products/products.html.twig', ['produits' => $produits, 'username' => $_SESSION['Admin']]);
+        }
     }
 
     public function editProduct()
     {
         $id = $_GET['productid'];
         $produit = $this->model->getOne($id);
-
-        $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('products/editproduct.html.twig', ['produit' => $produit, 'username' => $_SESSION['Admin']]);
+        }
     }
 
     public function updateThisProduct()
@@ -44,27 +55,24 @@ class ProductController extends BaseController
         if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
 
             //Limite la quantité des produits
-            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99 || !preg_match('/^[0-9]+$/', $_POST['quantity'])) {
-                $popup = "Champ quantité invalide, le nombre doit être compris entre 0 et 99.";
+            if ($_POST['quantity'] < 0 || $_POST['quantity'] > 99 || !preg_match('/^[0-9]+$/', $_POST['quantity'])) {
+                $_SESSION['popup'] = "Champ quantité invalide, le nombre doit être compris entre 0 et 99.";
                 $id = $_GET['productid'];
-                $produit = $this->model->getOne($id);
-
-                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /editproduct?productid=' . $id);
+                exit;
 
                 //limite le prix des produits
             } else if ($_POST['price'] < 0.20 || $_POST['price'] >= 20) {
-                $popup = "Champ prix invalide, le nombre doit être compris entre 0.20 et 20.";
+                $_SESSION['popup'] = "Champ prix invalide, le nombre doit être compris entre 0.20 et 20.";
                 $id = $_GET['productid'];
-                $produit = $this->model->getOne($id);
-
-                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /editproduct?productid=' . $id);
+                exit;
                 //regex
             } else if (!preg_match('/^[\wÀ-ÖØ-öø-ÿ ]+$/u', $_POST['name'])) {
-                $popup = "Le champ nom contient des caratères invalides, caractères alphanumériques uniquement.";
+                $_SESSION['popup'] = "Le champ nom contient des caratères invalides, caractères alphanumériques uniquement.";
                 $id = $_GET['productid'];
-                $produit = $this->model->getOne($id);
-
-                $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /editproduct?productid=' . $id);
+                exit;
 
                 //mise à jour de produit dans la DB
             } else {
@@ -84,52 +92,56 @@ class ProductController extends BaseController
 
                 $this->model->updateProduct($productid);
 
-                $popup = "La base de données a été mise à jour.";
+                $_SESSION['popup'] = "La base de données a été mise à jour.";
 
-                $produits = $this->model->getAll();
-                $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /');
+                exit;
             }
         } else {
-            $popup = "Tous les champs sont obligatoires.";
+            $_SESSION['popup'] = "Tous les champs sont obligatoires.";
             $id = $_GET['productid'];
-            $produit = $this->model->getOne($id);
-
-            $this->render('products/editproduct.html.twig', ['produit' => $produit, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            header('Location: /editproduct?productid=' . $id);
+            exit;
         }
     }
 
     public function newProduct()
     {
-        $this->render('products/newproduct.html.twig', ['username' => $_SESSION['Admin']]);
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('products/newproduct.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('products/newproduct.html.twig', ['username' => $_SESSION['Admin']]);
+        }
     }
 
     public function addProduct()
     {
         if (!empty(trim($_POST['name'])) && !empty(trim($_POST['quantity'])) && !empty(trim($_POST['price']))) {
-            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99 || !preg_match('/^[0-9]+$/', $_POST['price'])) {
-                $popup = "Champ quantité invalide, le nombre doit être compris entre 0 et 99.";
-
-                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
-            } else if ($_POST['price'] <= 0.20 || $_POST['price'] >= 20) {
-                $popup = "Champ prix invalide, le nombre doit être compris entre 0 et 99.";
-
-                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
+            if ($_POST['quantity'] < 0 || $_POST['quantity'] >= 99 || !preg_match('/^[0-9]+$/', $_POST['quantity'])) {
+                $_SESSION['popup'] = "Champ 'Quantité' invalide, le champ doit être nombre compris entre 0 et 99.";
+                header('Location: /newproduct');
+                exit;
+            } else if ($_POST['price'] <= 0.20 || $_POST['price'] >= 20 || !preg_match('/^[0-9]+$/', $_POST['price'])) {
+                $_SESSION['popup'] = "Champ 'Prix' invalide, le champ doit être un nombre compris entre 0. et 20.";
+                header('Location: /newproduct');
+                exit;
             } else if (!preg_match('/^[\wÀ-ÖØ-öø-ÿ ]+$/u', $_POST['name'])) {
-                $popup = "Le champ nom contient des caratères invalides, caractères alphanumériques uniquement.";
-
-                $this->render('products/newproduct.html.twig', ['popup' => $popup]);
+                $_SESSION['popup'] = "Le champ 'Nom du produit' contient des caratères invalides, caractères alphanumériques uniquement.";
+                header('Location: /newproduct');
+                exit;
             } else {
                 $this->model->addNewProduct();
 
-                $popup = "Le produit a été ajouté à la base de donnée avec succès.";
-
-                $produits = $this->model->getAll();
-                $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                $_SESSION['popup'] = "Le produit a été ajouté à la base de donnée avec succès.";
+                header('Location: /');
+                exit;
             }
         } else {
-            $popup = "Tous les champs sont obligatoires.";
-
-            $this->render('products/newproduct.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            $_SESSION['popup'] = "Tous les champs sont obligatoires.";
+            header('Location: /newproduct');
+            exit;
         }
     }
 
@@ -139,9 +151,35 @@ class ProductController extends BaseController
 
         $produit = $this->model->getOne($id);
         $this->model->deleteThisProduct($id);
-        $popup = "L'entrée " . $produit->name . " a été supprimée de la base de donnée avec succès.";
+        $_SESSION['popup'] = "L'entrée " . $produit->name . " a été supprimée de la base de donnée avec succès.";
 
+        header('Location: /');
+        exit;
+    }
+
+    public function displayJSON()
+    {
         $produits = $this->model->getAll();
-        $this->render('products/products.html.twig', ['produits' => $produits, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+        $data = json_encode($produits);
+
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
+
+        echo $data;
+    }
+
+    public function consume($id)
+    {
+
+        $this->model->consumeThisProduct($id);
+
+        $produit = $this->model->getOne($id);
+
+        $data = json_encode($produit);
+
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
+
+        echo $data;
     }
 }

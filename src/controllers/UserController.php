@@ -21,19 +21,33 @@ class UserController extends BaseController
     {
         $users = $this->model->getAll();
 
-        $this->render('users/users.html.twig', ['users' => $users, 'username' => $_SESSION['Admin']]);
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('users/users.html.twig', ['users' => $users, 'username' => $_SESSION['Admin']]);
+        }
     }
 
     public function editUser()
     {
         $id = $_GET['userid'];
         $user = $this->model->getOne($id);
+
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('users/edituser.html.twig', ['user' => $user, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('users/edituser.html.twig', ['user' => $user, 'username' => $_SESSION['Admin']]);
+        }
         $this->render('users/edituser.html.twig', ['user' => $user, 'username' => $_SESSION['Admin']]);
     }
 
     public function updateThisUser()
     {
-        if (!empty(trim($_POST['username'])) && !empty(trim($_POST['budget']))) {
+        if (($_POST['budget'] >= 0 && $_POST['budget'] <= 999) && !empty(trim($_POST['budget'])) && preg_match('/^[0-9]+$/', $_POST['budget'])) {
             $userid = $_GET['userid'];
 
             $user = $this->model->getOne($userid);
@@ -49,50 +63,65 @@ class UserController extends BaseController
 
             $this->model->updateUser($userid);
 
-            $popup = "La base de donnée a été mise à jour avec succès.";
+            $_SESSION['popup'] = "La base de donnée a été mise à jour avec succès.";
 
-            $users = $this->model->getAll();
-            $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            header('Location: /users');
+            exit;
         } else {
-            $popup = "Tous les champs sont obligatoires.";
             $id = $_GET['userid'];
-            $user = $this->model->getOne($id);
-            $this->render('users/edituser.html.twig', ['user' => $user, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+            $_SESSION['popup'] = "Le champ budget doit être un nombre compris entre 0 et 999.";
+            header('Location: /edituser?userid=' . $id);
+            exit;
         }
     }
 
     public function newUser()
     {
-        $this->render('users/newuser.html.twig', ['username' => $_SESSION['Admin']]);
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('users/newuser.html.twig', ['username' => $_SESSION['Admin']]);
+        }
     }
 
     public function addUser()
     {
         if ($_POST["password"] != $_POST["passwordverif"]) {
-            $popup = "Les mots de passes ne sont pas identiques.";
-            $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            $_SESSION['popup'] = "Les mots de passes ne sont pas identiques.";
+            header('Location: /newuser');
+            exit;
         } else if (!empty(trim($_POST['username'])) && !empty(trim($_POST['budget'])) && !empty(trim($_POST['password'])) && isset($_POST['isAdmin'])) {
-            if (preg_match('/^[\wÀ-ÖØ-öø-ÿ]+$/u', $_POST['username'])) {
+            if (preg_match('/^[\wÀ-ÖØ-öø-ÿ]+$/u', $_POST['username']) &&  preg_match('/^[0-9]+$/', $_POST['budget'])) {
                 $this->model->addNewUser();
-                $popup = "L'entrée a été ajoutée à la base de donnée avec succès.";
+                $_SESSION['popup'] = "L'entrée a été ajoutée à la base de donnée avec succès.";
 
-                $users = $this->model->getAll();
-                $this->render('users/users.html.twig', ['users' => $users, 'popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /users');
+                exit;
             } else {
-                $popup = "Le nom utilisateur comporte des caractères non acceptés. Caractères alphanumériques uniquement.";
+                $_SESSION['popup'] = "Le nom utilisateur ou le budget comporte des caractères non acceptés. Caractères alphanumériques uniquement, et budget entre 0 et 999.";
 
-                $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+                header('Location: /newuser');
+                exit;
             }
         } else {
-            $popup = "Tous les champs sont obligatoires.";
+            $_SESSION['popup'] = "Tous les champs sont obligatoires.";
 
-            $this->render('users/newuser.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            header('Location: /newuser');
+            exit;
         }
     }
 
     public function auth()
     {
-        $this->render('users/auth.html.twig');
+        if (isset($_SESSION['popup'])) {
+            $popup = $_SESSION['popup'];
+            $this->render('users/auth.html.twig', ['popup' => $popup]);
+            unset($_SESSION['popup']);
+        } else {
+            $this->render('users/auth.html.twig');
+        }
     }
 
     public function tryConnexion()
@@ -106,12 +135,14 @@ class UserController extends BaseController
                 header('Location: /');
                 exit;
             } else {
-                $popup = "Identifiants incorrects.";
-                $this->render('users/auth.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+                $_SESSION['popup'] = "Identifiants incorrects.";
+                header('Location: /auth');
+                exit;
             }
         } else {
-            $popup = "Tous les champs sont obligatoires.";
-            $this->render('users/auth.html.twig', ['popup' => $popup, 'username' => $_SESSION['Admin']]);
+            $_SESSION['popup'] = "Tous les champs sont obligatoires.";
+            header('Location: /auth');
+            exit;
         }
     }
 
@@ -119,9 +150,5 @@ class UserController extends BaseController
     {
         $_SESSION['Admin'] = null;
         header('Location: /');
-    }
-
-    public function whoIsConnect()
-    {
     }
 }

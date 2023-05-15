@@ -20,11 +20,22 @@ class App
     //UNE SEULE METHOD ICI, LA METHOD RUN
     public function run()
     {
+        //ATTENTION, CECI EST UN TEST ET N'EST PAS UNE BONNE PRATIQUE ! CE NE DOIT PAS ETRE LE ROLE DE CETTE CLASSE (MAIS CELUI D'UNE CLASS ROUTER) DE GERER LA VERIFICATION DES ROUTES
+        //EN TERME DE CONVENTION, CHAQUE CONTROLLER EST UNE CLASSE  
 
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
-        //ATTENTION, CECI EST UN TEST ET N'EST PAS UNE BONNE PRATIQUE ! CE NE DOIT PAS ETRE LE ROLE DE CETTE CLASSE (MAIS CELUI D'UNE CLASS ROUTER) DE GERER LA VERIFICATION DES ROUTES
-        //EN TERME DE CONVENTION, CHAQUE CONTROLLER EST UNE CLASSE
-        if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {
+
+        //API ROUTES   
+        //UTILISATION DE CURL DANS LE TERMINAL POUR VERIFIER QUE LA ROUTE RENVOIE BIEN UN JSON     
+        if ($uri == '/api/products') {
+            $controller = new ProductController();
+            $controller->displayJSON();
+        } else if ($uri == '/api/products/consume' && isset($_GET['id'])) {
+            $controller = new ProductController();
+            $controller->consume($_GET['id']);
+
+            //CONNEXION ADMIN
+        } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {
 
             //INDEX = PRODUCT HOME
             if ($uri == '/' || $uri == '/index.php') {
@@ -35,6 +46,8 @@ class App
             } else if ($uri == '/logout') {
                 $controller = new UserController();
                 $controller->disconnect();
+
+
 
                 //PRODUCT ROUTES
             } else if ($uri == '/editproduct' && isset($_GET['productid'])) {
