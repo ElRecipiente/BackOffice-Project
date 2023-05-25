@@ -3,6 +3,7 @@
 namespace src\models;
 
 use core\BaseModel;
+use PDO;
 
 class Product extends BaseModel
 {
@@ -52,5 +53,13 @@ class Product extends BaseModel
         $sql = "UPDATE " . $this->table . " SET quantity = quantity-1 WHERE id = " . $id . " AND quantity > 0";
         $query = $this->_connexion->prepare($sql);
         $query->execute();
+    }
+
+    public function getPrice($id)
+    {
+        $sql = "SELECT price FROM " . $this->table . " WHERE id = " . $id;
+        $query = $this->_connexion->prepare($sql);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ)->price;
     }
 }

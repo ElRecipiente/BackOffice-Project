@@ -5,6 +5,7 @@ namespace src\controllers;
 use core\BaseController;
 use src\models\Product;
 use src\models\ProductHistory;
+use src\models\User;
 
 class ProductController extends BaseController
 {
@@ -168,10 +169,12 @@ class ProductController extends BaseController
         echo $data;
     }
 
-    public function consume($id)
+    public function consume($id, $userid)
     {
-
         $this->model->consumeThisProduct($id);
+        $price = $this->model->getPrice($id);
+        $user = new User;
+        $user->consumeCredish($userid, $price);
 
         $produit = $this->model->getOne($id);
 

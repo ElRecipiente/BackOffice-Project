@@ -146,6 +146,17 @@ class UserController extends BaseController
         }
     }
 
+    public function displayJSON($id)
+    {
+        $user = $this->model->getOne($id);
+        $data = json_encode($user);
+
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
+
+        echo $data;
+    }
+
     public function disconnect()
     {
         $_SESSION['Admin'] = null;

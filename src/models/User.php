@@ -50,4 +50,11 @@ class User extends BaseModel
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ);
     }
+
+    public function consumeCredish($id, $price)
+    {
+        $sql = "UPDATE " . $this->table . " SET budget = budget-" . $price . " WHERE id = " . $id . " AND budget > 0";
+        $query = $this->_connexion->prepare($sql);
+        $query->execute();
+    }
 }

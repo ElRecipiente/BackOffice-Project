@@ -30,9 +30,12 @@ class App
         if ($uri == '/api/products') {
             $controller = new ProductController();
             $controller->displayJSON();
-        } else if ($uri == '/api/products/consume' && isset($_GET['id'])) {
+        } else if ($uri == '/api/users' && isset($_GET['id'])) {
+            $controller = new UserController();
+            $controller->displayJSON($_GET['id']);
+        } else if ($uri == '/api/product/consume' && isset($_GET['id']) && isset($_GET['userid'])) {
             $controller = new ProductController();
-            $controller->consume($_GET['id']);
+            $controller->consume($_GET['id'], $_GET['userid']);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {
