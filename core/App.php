@@ -7,7 +7,7 @@ use src\controllers\UserController;
 use src\controllers\ProductHistoryController;
 use src\controllers\UserHistoryController;
 use src\controllers\ErrorController;
-
+use src\controllers\FavoriteController;
 
 class App
 {
@@ -36,6 +36,9 @@ class App
         } else if ($uri == '/api/product/consume' && isset($_GET['id']) && isset($_GET['userid'])) {
             $controller = new ProductController();
             $controller->consume($_GET['id'], $_GET['userid']);
+        } else if ($uri == '/api/favorite' && isset($_GET['id']) && isset($_GET['userid'])) {
+            $controller = new FavoriteController();
+            $controller->favorite($_GET['id'], $_GET['userid']);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {
