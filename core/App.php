@@ -36,9 +36,12 @@ class App
         } else if ($uri == '/api/product/consume' && isset($_GET['id']) && isset($_GET['userid'])) {
             $controller = new ProductController();
             $controller->consume($_GET['id'], $_GET['userid']);
-        } else if ($uri == '/api/favorite' && isset($_GET['id']) && isset($_GET['userid'])) {
+        } else if ($uri == '/api/product/favorite' && isset($_GET['productid']) && isset($_GET['userid'])) {
             $controller = new FavoriteController();
-            $controller->favorite($_GET['id'], $_GET['userid']);
+            $controller->isFavorite($_GET['productid'], $_GET['userid']);
+        } else if ($uri == '/api/favorite' && isset($_GET['userid'])) {
+            $controller = new FavoriteController();
+            $controller->userFavorite($_GET['userid']);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {

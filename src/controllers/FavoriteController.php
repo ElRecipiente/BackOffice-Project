@@ -15,9 +15,39 @@ class FavoriteController extends BaseController
         $this->model = new Favorite;
     }
 
-    public function favorite($id, $userid)
+    public function userFavorite($userid)
     {
-        echo $id;
-        echo $userid;
+        $favoris = $this->model->checkAllFavorite($userid);
+        $data = json_encode([$favoris]);
+
+        header('Content-Type: application/json');
+        header("Access-Control-Allow-Origin: *");
+
+        echo $data;
+    }
+
+    public function isFavorite($productid, $userid)
+    {
+        $favorite = $this->model->checkFavorite($productid, $userid);
+
+        if ($favorite) {
+            $this->model->removeFavorite($productid, $userid);
+            $favoris = $this->model->checkAllFavorite($userid);
+            $data = json_encode([$favoris]);
+
+            header('Content-Type: application/json');
+            header("Access-Control-Allow-Origin: *");
+
+            echo $data;
+        } else {
+            $this->model->addFavorite($productid, $userid);
+            $favoris = $this->model->checkAllFavorite($userid);
+            $data = json_encode([$favoris]);
+
+            header('Content-Type: application/json');
+            header("Access-Control-Allow-Origin: *");
+
+            echo $data;
+        }
     }
 }
