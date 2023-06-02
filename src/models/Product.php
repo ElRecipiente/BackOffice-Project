@@ -65,7 +65,7 @@ class Product extends BaseModel
 
     public function getAllWithFavorite($userid)
     {
-        $sql = "SELECT products.*, CASE WHEN favorite.id_user THEN 1 ELSE 0 END as favori
+        $sql = "SELECT products.*, CASE WHEN favorite.id_user = $userid THEN 1 ELSE 0 END as favori
         FROM $this->table
         LEFT JOIN favorite ON favorite.id_product = products.id
         LEFT JOIN users ON favorite.id_user = users.id AND users.id = $userid
