@@ -27,9 +27,9 @@ class App
 
         //API ROUTES   
         //UTILISATION DE CURL DANS LE TERMINAL POUR VERIFIER QUE LA ROUTE RENVOIE BIEN UN JSON     
-        if ($uri == '/api/products') {
+        if ($uri == '/api/products' && isset($_GET['userid'])) {
             $controller = new ProductController();
-            $controller->displayJSON();
+            $controller->displayJSON($_GET['userid']);
         } else if ($uri == '/api/users' && isset($_GET['id'])) {
             $controller = new UserController();
             $controller->displayJSON($_GET['id']);
@@ -39,9 +39,6 @@ class App
         } else if ($uri == '/api/product/favorite' && isset($_GET['productid']) && isset($_GET['userid'])) {
             $controller = new FavoriteController();
             $controller->isFavorite($_GET['productid'], $_GET['userid']);
-        } else if ($uri == '/api/favorite' && isset($_GET['userid'])) {
-            $controller = new FavoriteController();
-            $controller->userFavorite($_GET['userid']);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {

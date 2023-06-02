@@ -62,4 +62,16 @@ class Product extends BaseModel
         $query->execute();
         return $query->fetch(PDO::FETCH_OBJ)->price;
     }
+
+    public function getAllWithFavorite($userid)
+    {
+        $sql = "SELECT products.*, CASE WHEN favorite.id_user THEN 1 ELSE 0 END as favori
+        FROM $this->table
+        LEFT JOIN favorite ON favorite.id_product = products.id
+        LEFT JOIN users ON favorite.id_user = users.id AND users.id = $userid
+        ORDER BY products.name ASC";
+        $query = $this->_connexion->prepare($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
 }

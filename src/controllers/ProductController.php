@@ -158,9 +158,9 @@ class ProductController extends BaseController
         exit;
     }
 
-    public function displayJSON()
+    public function displayJSON($userid)
     {
-        $produits = $this->model->getAll();
+        $produits = $this->model->getAllWithFavorite($userid);
         $data = json_encode($produits);
 
         header('Content-Type: application/json');
