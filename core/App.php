@@ -39,6 +39,9 @@ class App
         } else if ($uri == '/api/product/favorite' && isset($_GET['productid']) && isset($_GET['userid'])) {
             $controller = new FavoriteController();
             $controller->isFavorite($_GET['productid'], $_GET['userid']);
+        } else if ($uri == '/api/auth' && isset($_POST['username']) && isset($_POST['password'])) {
+            $controller = new UserController();
+            $controller->tryAuth($_POST['username'], $_POST['password']);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {

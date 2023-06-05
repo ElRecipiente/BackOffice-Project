@@ -57,4 +57,14 @@ class User extends BaseModel
         $query = $this->_connexion->prepare($sql);
         $query->execute();
     }
+
+    public function auth($username, $password)
+    {
+        $sql = "SELECT id, username FROM $this->table WHERE username = :username AND password = :password";
+        $query = $this->_connexion->prepare($sql);
+        $query->bindParam(':username', $username);
+        $query->bindParam(':password', $password);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
 }

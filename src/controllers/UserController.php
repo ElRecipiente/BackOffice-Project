@@ -162,4 +162,13 @@ class UserController extends BaseController
         $_SESSION['Admin'] = null;
         header('Location: /');
     }
+
+    public function tryAuth($username, $password)
+    {
+        if (!empty(trim($_POST['username'])) && empty(trim($_POST['password']))) {
+            $user = $this->model->auth($username, $password);
+            $data = json_encode($user);
+            echo $data;
+        }
+    }
 }
