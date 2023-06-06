@@ -165,10 +165,21 @@ class UserController extends BaseController
 
     public function tryAuth($username, $password)
     {
-        if (!empty(trim($_POST['username'])) && empty(trim($_POST['password']))) {
+        // Si les champs ne sont pas vides
+        if (!empty(trim($username)) && empty(trim($password))) {
+
             $user = $this->model->auth($username, $password);
-            $data = json_encode($user);
-            echo $data;
+
+            if ($user) {
+                $data = json_encode($user);
+                echo $data;
+            } else {
+                $data = json_encode(['message' => 'Identifiants invalides, veuillez réessayez.']);
+                echo $data;
+            }
+
+            header('Content-Type: application/json');
+            header("Access-Control-Allow-Origin: *");
         }
     }
 }

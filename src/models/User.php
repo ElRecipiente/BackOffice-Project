@@ -60,7 +60,7 @@ class User extends BaseModel
 
     public function auth($username, $password)
     {
-        $sql = "SELECT id, username FROM $this->table WHERE username = :username AND password = :password";
+        $sql = "SELECT id FROM $this->table WHERE username = :username AND password = :password";
         $query = $this->_connexion->prepare($sql);
         $query->bindParam(':username', $username);
         $query->bindParam(':password', $password);
