@@ -39,9 +39,15 @@ class App
         } else if ($uri == '/api/product/favorite' && isset($_GET['productid']) && isset($_GET['userid'])) {
             $controller = new FavoriteController();
             $controller->isFavorite($_GET['productid'], $_GET['userid']);
-        } else if ($uri == '/api/auth' && isset($_POST['username']) && isset($_POST['password'])) {
+        } else if ($uri == '/api/auth') {
+            header('Content-Type: application/json');
+            header("Access-Control-Allow-Origin: *");
+            header("Access-Control-Allow-Headers: *");
+            $request_body = file_get_contents('php://input');
+            $data = json_decode($request_body, true);
+
             $controller = new UserController();
-            $controller->tryAuth($_POST['username'], $_POST['password']);
+            $controller->tryAuth($data);
 
             //CONNEXION ADMIN
         } else if (isset($_SESSION['Admin']) && $_SESSION['Admin'] != null) {
